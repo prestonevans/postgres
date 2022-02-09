@@ -19,7 +19,7 @@ const pool = new Pool(dbURL);
 
 pool.connect();
 const getContacts = (req, res) => {
-    pool.query('SELECT * from contact limit 5', (err, results) => {
+    pool.query('SELECT * from contact', (err, results) => {
         if (err) throw err;
         for (let row of results.rows) {
             console.log(JSON.stringify(row));
