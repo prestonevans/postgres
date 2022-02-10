@@ -20,7 +20,15 @@ const pool = new Pool(dbURL);
 pool.connect();
 
 const newUser = (req, res) => {
-    res.status(200).json(req.body)
+    // console.log(`${req.body.firstName},${req.body.lastName},${req.body.emailAddress},${req.body.age},${req.body.password}`)
+    pool.query(`INSERT INTO contact (first_name, last_name, email, age, role, password) VALUES (${req.body.firstName},${req.body.lastName},${req.body.emailAddress},${req.body.age}, ${req.body.role},${req.body.password})`, (error, results) => {
+        if (error) {
+            throw error;
+        }
+        res.status(200).json(results.rows);
+    })
+    
+
     // const newUser = new user();
     // newUser.firstName = req.body.firstName;
     // newUser.lastName = req.body.lastName;
@@ -35,6 +43,31 @@ const newUser = (req, res) => {
     //     res.send(`${newUser.firstName} has been added to the database <a href='/'>Back</a>`)
     // })
 }
+
+const users = (req,res) => {
+    pool.query('SELECT * FROM contact', (error, results) => {
+        if (error) {
+            throw error;
+        }
+        res.status(200).json(results.rows);
+    })
+} 
+const sortAsc = (req,res) => {
+    pool.query('SELECT * FROM contact ORDER BY last_name ASC', (error, results) => {
+        if (error) {
+            throw error;
+        }
+        res.status(200).json(results.rows);
+    })
+} 
+const sortDec = (req,res) => {
+    pool.query('SELECT * FROM contact ORDER BY last_name DESC', (error, results) => {
+        if (error) {
+            throw error;
+        }
+        res.status(200).json(results.rows);
+    })
+} 
 
 const getContacts = (req, res) => {
     pool.query('SELECT * from contact limit 5', (err, results) => {
@@ -78,4 +111,4 @@ const updateContactById = (req, res) =>{
     })
 }
 
-module.exports = {getContacts, getNames, updateContactFirstNameById, updateContactById, newUser};
+module.exports = {sortDec, sortAsc, users, getContacts, getNames, updateContactFirstNameById, updateContactById, newUser};
