@@ -36,6 +36,7 @@ const users = (req,res) => {
         res.status(200).json(results.rows);
     })
 } 
+
 const sortAsc = (req,res) => {
     pool.query('SELECT * FROM contact ORDER BY last_name ASC', (error, results) => {
         if (error) {
@@ -44,6 +45,7 @@ const sortAsc = (req,res) => {
         res.status(200).json(results.rows);
     })
 } 
+
 const sortDec = (req,res) => {
     pool.query('SELECT * FROM contact ORDER BY last_name DESC', (error, results) => {
         if (error) {
@@ -53,40 +55,10 @@ const sortDec = (req,res) => {
     })
 } 
 
-const getContacts = (req, res) => {
-    pool.query('SELECT * from contact limit 5', (err, results) => {
-        if (err) throw err;
-        for (let row of results.rows) {
-            console.log(JSON.stringify(row));
-        }
-        res.status(200).json(results.rows);
-    })
-};
-const getNames = (req, res) => {
-    console.log(`db getNames`);
-    pool.query('SELECT first_name, last_name FROM contact ORDER BY last_name ASC', (error, results) => {
-        if (error) {
-            throw error;
-        }
-        res.status(200).json(results.rows);
-    })
-};
-const updateContactFirstNameById = (req, res) =>{
-    let id  = req.params.id;
-    let firstname = req.params.firstname;
-    pool.query('update contact set first_name = $1 where id = $2 returning *', 
-    [firstname, id], 
-    (error, results) => {
-        if (error) {
-            throw error;
-        }
-        res.status(200).json(results.rows);
-    })
-}
-const updateContactById = (req, res) =>{
-    let id  = req.params.id;
-    pool.query('SELECT * from contact where id = $1', 
-    [id], 
+const removeUser = (req,res) => {
+    let firstName  = req.body.name;
+    pool.query('DELETE from contact where first_name = $1 returning *', 
+    [firstName], 
     (error, results) => {
         if (error) {
             throw error;
@@ -95,4 +67,30 @@ const updateContactById = (req, res) =>{
     })
 }
 
-module.exports = {sortDec, sortAsc, users, getContacts, getNames, updateContactFirstNameById, updateContactById, newUser};
+const updateContactByFirstName = (req, res) =>{
+    let firstName  = req.body.name
+    let role = req.body.role
+    pool.query('update contact set role = $2 where first_name = $1 returning *', 
+    [firstName, role], 
+    (error, results) => {
+        if (error) {
+            throw error;
+        }
+        res.status(200).json(results.rows);
+    })
+}
+
+const searchByFirst = (req, res) => {
+    let firstName  = req.body.name
+    pool.query('SELECT * from contact where first_name = $1',
+    [firstName], 
+    (err, results) => {
+        if (err) throw err;
+        for (let row of results.rows) {
+            console.log(JSON.stringify(row));
+        }
+        res.status(200).json(results.rows);
+    })
+};
+
+module.exports = {searchByFirst,updateContactByFirstName, removeUser, sortDec, sortAsc, users, newUser};
