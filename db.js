@@ -19,30 +19,30 @@ const pool = new Pool(dbURL);
 
 pool.connect();
 
-const newUser = (req, res) => {
-    // console.log(`${req.body.firstName},${req.body.lastName},${req.body.emailAddress},${req.body.age},${req.body.password}`)
-    pool.query(`INSERT INTO contact (first_name, last_name, email, age, role, password) VALUES (${req.body.firstName},${req.body.lastName},${req.body.emailAddress},${req.body.age}, ${req.body.role},${req.body.password})`, (error, results) => {
-        if (error) {
-            throw error;
-        }
-        res.status(200).json(results.rows);
-    })
+// const newUser = (req, res) => {
+//     // console.log(`${req.body.firstName},${req.body.lastName},${req.body.emailAddress},${req.body.age},${req.body.password}`)
+//     pool.query(`INSERT INTO contact (first_name, last_name, email, age, role, password) VALUES (${req.body.firstName},${req.body.lastName},${req.body.emailAddress},${req.body.age}, ${req.body.role},${req.body.password})`, (error, results) => {
+//         if (error) {
+//             throw error;
+//         }
+//         res.status(200).json(results.rows);
+//     })
     
 
-    // const newUser = new user();
-    // newUser.firstName = req.body.firstName;
-    // newUser.lastName = req.body.lastName;
-    // newUser.emailAddress = req.body.emailAddress;
-    // newUser.age = req.body.age
-    // newUser.role = req.body.role;
-    // newUser.password = req.body.password;
-    // newUser.save((err, data) => {
-    //     if (err) {
-    //         return console.error(err)
-    //     }
-    //     res.send(`${newUser.firstName} has been added to the database <a href='/'>Back</a>`)
-    // })
-}
+//     // const newUser = new user();
+//     // newUser.firstName = req.body.firstName;
+//     // newUser.lastName = req.body.lastName;
+//     // newUser.emailAddress = req.body.emailAddress;
+//     // newUser.age = req.body.age
+//     // newUser.role = req.body.role;
+//     // newUser.password = req.body.password;
+//     // newUser.save((err, data) => {
+//     //     if (err) {
+//     //         return console.error(err)
+//     //     }
+//     //     res.send(`${newUser.firstName} has been added to the database <a href='/'>Back</a>`)
+//     // })
+// }
 
 const users = (req,res) => {
     pool.query('SELECT * FROM contact', (error, results) => {
@@ -111,4 +111,4 @@ const updateContactById = (req, res) =>{
     })
 }
 
-module.exports = {sortDec, sortAsc, users, getContacts, getNames, updateContactFirstNameById, updateContactById, newUser};
+module.exports = {sortDec, sortAsc, users, getContacts, getNames, updateContactFirstNameById, updateContactById};
