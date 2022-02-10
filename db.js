@@ -20,7 +20,7 @@ const pool = new Pool(dbURL);
 pool.connect();
 
 const newUser = (req, res) => {
-    alert(`Post /newUser: ${JSON.stringify(req.body)}`)
+    res.status(200).json(req.body)
     // const newUser = new user();
     // newUser.firstName = req.body.firstName;
     // newUser.lastName = req.body.lastName;
