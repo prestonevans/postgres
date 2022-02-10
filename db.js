@@ -18,6 +18,24 @@ if(herokudb){
 const pool = new Pool(dbURL);
 
 pool.connect();
+
+const newUser = (req, res) => {
+    alert(`Post /newUser: ${JSON.stringify(req.body)}`)
+    // const newUser = new user();
+    // newUser.firstName = req.body.firstName;
+    // newUser.lastName = req.body.lastName;
+    // newUser.emailAddress = req.body.emailAddress;
+    // newUser.age = req.body.age
+    // newUser.role = req.body.role;
+    // newUser.password = req.body.password;
+    // newUser.save((err, data) => {
+    //     if (err) {
+    //         return console.error(err)
+    //     }
+    //     res.send(`${newUser.firstName} has been added to the database <a href='/'>Back</a>`)
+    // })
+}
+
 const getContacts = (req, res) => {
     pool.query('SELECT * from contact limit 5', (err, results) => {
         if (err) throw err;
@@ -60,4 +78,4 @@ const updateContactById = (req, res) =>{
     })
 }
 
-module.exports = {getContacts, getNames, updateContactFirstNameById, updateContactById};
+module.exports = {getContacts, getNames, updateContactFirstNameById, updateContactById, newUser};

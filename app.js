@@ -10,6 +10,7 @@ app.use(express.urlencoded({extended:true}));
 app.get('/',(req,res) => { 
   res.sendFile(path.join(__dirname+'/index.html')); 
 }); 
+app.post('/newUser', db.newUser);
 app.get('/getNames', db.getNames);
 app.get('/getContacts', db.getContacts);
 app.get('/updateContactFirstNameByIds/id/:id/firstname/:firstname', db.updateContactFirstNameById);
